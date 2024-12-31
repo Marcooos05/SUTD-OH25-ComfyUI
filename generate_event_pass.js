@@ -13,6 +13,18 @@ function getPillarTemplate(pillar) {
 }
 
 // Function to create event pass
+/**
+ * Creates an event pass with the specified parameters.
+ *
+ * @param {string} pillar - Pillar Choice ("ASD", "CSD", "ESD", "EPD", "DAI", "SUTD" - SUTD is the generic one).
+ * @param {string} chatID - To generate the QR Code.
+ * @param {string} [name="Alex Tan"] - Name to be displayed on the event pass.
+ * @param {boolean} [customAvatar=false] - Whether to use a custom avatar (only use customAvatar prior to Open House event).
+ * @param {string} [avatarType="Male"] - Avatar type ("Male", "Female", other custom avatar choices - "Panda", "Fox", "Owl").
+ * @param {string|null} [personalInterest=null] - Personal interest (only used if customAvatar is true).
+ * @returns {Promise<string>} - The file path of the generated event pass.
+ * @throws {Error} - Throws an error if there is an issue reading the template or avatar.
+ */
 async function createEventPass(
   pillar,
   chatID,
