@@ -22,6 +22,7 @@ function getPillarTemplate(pillar) {
  * @param {boolean} [customAvatar=false] - Whether to use a custom avatar (only use customAvatar prior to Open House event).
  * @param {string} [avatarType="Male"] - Avatar type ("Male", "Female", other custom avatar choices - "Panda", "Fox", "Owl").
  * @param {string|null} [personalInterest=null] - Personal interest (only used if customAvatar is true).
+ * @param {string} [SERVER_ADDRESS="127.0.0.1:8188"] - Server address for the WebSocket connection.
  * @returns {Promise<string>} - The file path of the generated event pass.
  * @throws {Error} - Throws an error if there is an issue reading the template or avatar.
  */
@@ -31,14 +32,16 @@ async function createEventPass(
   name = "Alex Tan",
   customAvatar = false,
   avatarType = "Male",
-  personalInterest = null
+  personalInterest = null,
+  SERVER_ADDRESS = "127.0.0.1:8188"
 ) {
   const templatePath = getPillarTemplate(pillar);
   let avatarName, tagline, avatarPath;
   if (customAvatar) {
     ({ avatarName, tagline, avatarPath } = await getCustomAvatar(
       avatarType,
-      personalInterest
+      personalInterest,
+      SERVER_ADDRESS
     ));
     console.log(avatarName, tagline, avatarPath);
   } else {
