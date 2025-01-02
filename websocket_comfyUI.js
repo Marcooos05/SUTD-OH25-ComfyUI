@@ -130,15 +130,18 @@ async function getImages(
 }
 
 async function getCustomAvatar(
+  chatID,
   avatarType,
   personalInterest,
+  textPrompt,
   serverAddress = SERVER_ADDRESS,
   clientId = CLIENT_ID
 ) {
+  const seedNum = random.choice([785790463864390]); //TODO change array to all possible seeds
   const prompt = {
     3: {
       inputs: {
-        seed: 785790463864390, //TODO change to randomly selected seed from an array of seeds
+        seed: seedNum,
         steps: 30,
         cfg: 7,
         sampler_name: "euler_ancestral",
@@ -159,7 +162,7 @@ async function getCustomAvatar(
     },
     6: {
       inputs: {
-        text: `anthropomorphic ${personalInterest} character close up of upper body, character focus, young ${avatarType} student, in action, simple, flat colors, stardew valley style, pixel art style`,
+        text: textPrompt,
         clip: ["39", 1],
       },
       class_type: "CLIPTextEncode",
@@ -218,15 +221,14 @@ async function getCustomAvatar(
   let avatarPath;
   for (const filename in images) {
     const imageData = images[filename];
-    avatarPath = path.join(
-      avatarFolder,
-      `${avatarType}_${personalInterest}_avatar.png`
-    );
+    avatarPath = path.join(avatarFolder, `${avatarType}_${chatID}_avatar.png`);
     await sharp(Buffer.from(imageData[0])).toFile(avatarPath);
   }
 
-  const avatarName = `${personalInterest} ${avatarType}`;
-  const tagline = "Trailblazing a better world by design!";
+  // (avatarName, tagline) = getAvatarNameAndTagline(avatarType, personalInterest) //api call to openAI
+
+  const avatarName = `${avatarType}`; //TODO Change to the openAI prompt to retrieve avatar name based on avatarType and interest
+  const tagline = "Trailblazing a better world by design!"; //TODO Change to the openAI prompt to retrieve avatar tagline based on avatarType and interest
   return { avatarName, tagline, avatarPath };
 }
 
@@ -282,7 +284,7 @@ function getRandomAvatar(avatarType) {
   const avatarName = avatarNames[randomIndex];
   const tagline = taglines[randomIndex];
 
-  const randomAvatarNumber = Math.floor(Math.random() * 3) + 1;
+  const randomAvatarNumber = Math.floor(Math.random() * 3) + 1; //TODO Change to an array of all the possible samples
   const scriptDir = __dirname;
   const avatarBasePath = path.join(scriptDir, "Samples");
   const avatarPath = path.join(

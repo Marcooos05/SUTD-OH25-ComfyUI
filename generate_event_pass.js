@@ -12,6 +12,31 @@ function getPillarTemplate(pillar) {
   return templatePath;
 }
 
+function getTextPrompt(avatarType, personalInterest) {
+  // 1. Robotics & Mechatronics - engineer, screw drivers and metal parts building an electronic device
+
+  // 2. Product Design - design industry working on product drawings holding tools
+
+  // 3. Architecture Design - architecture, working on building drawings and blueprints
+
+  // 4. Software development - tech working on a laptop in an office
+
+  // 5. Data Science & Analytics - data analyst working on charts and analytics on a laptop in a meeting room
+
+  const mapPrompt = {
+    "Robotics & Mechatronics":
+      "engineer, holding screw drivers and metal parts building an electronic device on a workbench",
+    "Product Design":
+      "in design industry working on product drawings holding tools, pc desktop in the background",
+    "Architecture Design":
+      "in architecture working on building drawings and blueprints, pc desktop in the background",
+    "Software development": "tech working on a laptop in an office",
+    "Data Science & Analytics":
+      "data analyst working on charts and analytics on a laptop in a meeting room, pc desktop in the background",
+  };
+  return `anthropomorphic (character:1.3) close up of upper body, character focus, simple, flat colors, pixel art style, character is a ${avatarType} ${mapPrompt[personalInterest]}, happy`;
+}
+
 // Function to create event pass
 /**
  * Creates an event pass with the specified parameters.
@@ -38,9 +63,12 @@ async function createEventPass(
   const templatePath = getPillarTemplate(pillar);
   let avatarName, tagline, avatarPath;
   if (customAvatar) {
+    const textPrompt = getTextPrompt(avatarType, personalInterest);
     ({ avatarName, tagline, avatarPath } = await getCustomAvatar(
+      chatID,
       avatarType,
       personalInterest,
+      textPrompt,
       SERVER_ADDRESS
     ));
     console.log(avatarName, tagline, avatarPath);
