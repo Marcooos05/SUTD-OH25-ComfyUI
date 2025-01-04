@@ -137,7 +137,14 @@ async function getCustomAvatar(
   serverAddress = SERVER_ADDRESS,
   clientId = CLIENT_ID
 ) {
-  const seedNum = random.choice([785790463864390]); //TODO change array to all possible seeds
+  // Array of possible seeds
+  const seeds = [785790463864390]; // Replace this with all possible seeds
+
+  // Select a random seed
+  const seedNum = seeds[Math.floor(Math.random() * seeds.length)];
+
+  // Log the selected seed
+  console.log(`Selected seed: ${seedNum}`);
   const prompt = {
     3: {
       inputs: {
